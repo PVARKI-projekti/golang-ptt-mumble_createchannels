@@ -25,3 +25,6 @@
 coverage*
 *.exe
 build/
+
+*.p12
+*.pem
