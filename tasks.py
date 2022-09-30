@@ -91,13 +91,13 @@ def coverage(c, publish=False):
 def cc(c):
     """Build the project for all architectures
     """
-    
+
     output = "{{.Dir}}-{{.OS}}-{{.Arch}}"
     TRAVIS_TAG = os.environ.get("TRAVIS_TAG")
     BINARY = os.environ.get("BINARY")
     if TRAVIS_TAG and BINARY:
         output = "%s-%s-{{.OS}}-{{.Arch}}" % (BINARY, TRAVIS_TAG)
-    
+
     c.run(
         'gox -os="darwin windows" -arch="amd64" -output="build/%s" -ldflags "-X main.Rev=`git rev-parse --short HEAD`" -verbose %s'
         % (output, CMD_PKG)

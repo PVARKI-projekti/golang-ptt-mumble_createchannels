@@ -31,16 +31,16 @@ For a list of options, run with `--help`.
 Before you get started, make sure you have installed the following tools::
 
     $ python3 -m pip install -U cookiecutter>=1.4.0
-    $ python3 -m pip install pre-commit bump2version invoke ruamel.yaml halo
+    $ python3 -m pip install pre-commit bump2version invoke ruamel.yaml halo detect-secrets
     $ go get -u golang.org/x/tools/cmd/goimports
     $ go get -u golang.org/x/lint/golint
     $ go get -u github.com/fzipp/gocyclo/cmd/gocyclo
     $ go get -u github.com/mitchellh/gox  # if you want to test building on different architectures
 
-**Remember**: To be able to excecute the tools downloaded with `go get`, 
+**Remember**: To be able to excecute the tools downloaded with `go get`,
 make sure to include `$GOPATH/bin` in your `$PATH`.
 If `echo $GOPATH` does not give you a path make sure to run
-(`export GOPATH="$HOME/go"` to set it). In order for your changes to persist, 
+(`export GOPATH="$HOME/go"` to set it). In order for your changes to persist,
 do not forget to add these to your shells `.bashrc`.
 
 With the tools in place, it is strongly advised to install the git commit hooks to make sure checks are passing in CI:

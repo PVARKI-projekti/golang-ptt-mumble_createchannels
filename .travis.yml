@@ -30,7 +30,7 @@ jobs:
         on:
           repo: rambo/mumble_createchannels
           tags: true
-  
+
 install: true
 notifications:
   email: false
