@@ -5,6 +5,7 @@ import (
 	"net"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/romnn/flags4urfavecli/flags"
 	log "github.com/sirupsen/logrus"
@@ -100,6 +101,12 @@ func main() {
 				return cli.Exit("Could not connect", 1)
 			}
 
+			newch := addAndCheck(client, client.Channels[0], "plocfng")
+			if newch != nil {
+				log.Info("newch name is ", newch.Name)
+				addAndCheck(client, newch, "I_am_a_sub")
+			}
+
 			log.Info("Disconnecting")
 			err = client.Disconnect()
 			if err != nil {
@@ -113,4 +120,24 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+// Add channel and check if it got added
+func addAndCheck(client *gumble.Client, parent *gumble.Channel, name string) *gumble.Channel {
+	log.Info("Trying to create channel ", name)
+	client.Do(func() {
+		parent.Add(name, false)
+	})
+	// FIXME: listen for channel events with some timeout instead
+	time.Sleep(150 * time.Millisecond)
+	var retval *gumble.Channel = nil
+	client.Do(func() {
+		child := parent.Find(name)
+		if child != nil {
+			retval = child
+		} else {
+			log.Error("Looks like create failed")
+		}
+	})
+	return retval
 }
