@@ -179,7 +179,7 @@ func recurseChannelMap(client *gumble.Client, parent *gumble.Channel, children i
 		name, found := childconf["name"]
 		if !found {
 			log.Error("'name' not found in item #", idx)
-			return false
+			continue
 		}
 		childch := addAndCheck(client, parent, name.(string))
 		if childch == nil {
