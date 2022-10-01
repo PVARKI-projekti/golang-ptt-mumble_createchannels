@@ -1,4 +1,4 @@
-module github.com/rambo/mumble_createchannels
+module github.com/PVARKI-projekti/golang-ptt-mumble_createchannels
 
 go 1.19
 
