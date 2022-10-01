@@ -21,13 +21,6 @@ var Rev = ""
 // Version is incremented using bump2version
 const Version = "0.0.2"
 
-// ChannelConf map type
-type ChannelConf struct {
-	name        string
-	description string
-	channels    []ChannelConf
-}
-
 func main() {
 	app := &cli.App{
 		Version:   Version,
