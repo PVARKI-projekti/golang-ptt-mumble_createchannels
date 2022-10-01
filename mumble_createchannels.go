@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"time"
 
+	"gopkg.in/yaml.v3"
+
 	"github.com/romnn/flags4urfavecli/flags"
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
@@ -19,12 +21,19 @@ var Rev = ""
 // Version is incremented using bump2version
 const Version = "0.0.2"
 
+// ChannelConf map type
+type ChannelConf struct {
+	name        string
+	description string
+	channels    []ChannelConf
+}
+
 func main() {
 	app := &cli.App{
 		Version:   Version,
 		Usage:     "Create channel hierarchies on mumble server",
 		Name:      "mumble_createchannels",
-		ArgsUsage: "server_address",
+		ArgsUsage: "server_address channel_map.yaml",
 		Flags: []cli.Flag{
 			&flags.LogLevelFlag,
 			&cli.PathFlag{
@@ -62,8 +71,32 @@ func main() {
 				log.SetLevel(level)
 			}
 			if ctx.Args().Len() < 1 {
-				log.Error("server address missing")
+				log.Fatal("Server address missing")
 				cli.ShowAppHelpAndExit(ctx, 1)
+			}
+			if ctx.Args().Len() < 2 {
+				log.Fatal("Channel map is missing")
+				cli.ShowAppHelpAndExit(ctx, 1)
+			}
+
+			yfile, err := os.ReadFile(ctx.Args().Get(1))
+			if err != nil {
+				log.Fatal(err)
+				return cli.Exit("Cannot open yaml file", 1)
+			}
+			yamldata := make(map[string]interface{})
+			err = yaml.Unmarshal(yfile, &yamldata)
+			if err != nil {
+				log.Fatal(err)
+				return cli.Exit("Cannot parse yaml file", 1)
+			}
+
+			//log.Info("yamldata: ", pp.Sprint(yamldata))
+
+			channels, ok := yamldata["channels"]
+			if !ok {
+				log.Error("No 'channels' key at root level in YAML")
+				return cli.Exit("Nothing to do", 1)
 			}
 
 			var tlsConfig tls.Config
@@ -79,7 +112,7 @@ func main() {
 				}
 				certificate, err := tls.LoadX509KeyPair(cert, key)
 				if err != nil {
-					log.Error(err)
+					log.Fatal(err)
 					return cli.Exit("Cannot load certificate", 1)
 				}
 				tlsConfig.Certificates = append(tlsConfig.Certificates, certificate)
@@ -97,20 +130,16 @@ func main() {
 			log.Info("Dialing ", address)
 			client, err := gumble.DialWithDialer(new(net.Dialer), address, config, &tlsConfig)
 			if err != nil {
-				log.Error(err)
+				log.Fatal(err)
 				return cli.Exit("Could not connect", 1)
 			}
 
-			newch := addAndCheck(client, client.Channels[0], "plocfng")
-			if newch != nil {
-				log.Info("newch name is ", newch.Name)
-				addAndCheck(client, newch, "I_am_a_sub")
-			}
+			recurseChannelMap(client, client.Channels[0], channels)
 
 			log.Info("Disconnecting")
 			err = client.Disconnect()
 			if err != nil {
-				log.Error(err)
+				log.Fatal(err)
 				return cli.Exit("Could not disconnect", 1)
 			}
 			return nil
@@ -124,20 +153,56 @@ func main() {
 
 // Add channel and check if it got added
 func addAndCheck(client *gumble.Client, parent *gumble.Channel, name string) *gumble.Channel {
-	log.Info("Trying to create channel ", name)
-	client.Do(func() {
-		parent.Add(name, false)
-	})
-	// FIXME: listen for channel events with some timeout instead
-	time.Sleep(150 * time.Millisecond)
+	log.Info("Trying to create channel ", name, " under ", parent.Name)
 	var retval *gumble.Channel = nil
-	client.Do(func() {
-		child := parent.Find(name)
-		if child != nil {
-			retval = child
-		} else {
-			log.Error("Looks like create failed")
+
+	// FIXME: listen for events with some timeout instead
+	for i := range [4]int{} {
+		client.Do(func() {
+			parent.Add(name, false)
+		})
+		time.Sleep(250 * time.Millisecond)
+		client.Do(func() {
+			child := parent.Find(name)
+			if child != nil {
+				retval = child
+			}
+		})
+		if retval != nil {
+			break
 		}
-	})
+		log.Warning("Did not find channel, trying again in 1s, this was attempt #", i)
+		time.Sleep(1000 * time.Millisecond)
+	}
+	if retval == nil {
+		log.Error("Looks like create failed")
+	}
 	return retval
+}
+
+func recurseChannelMap(client *gumble.Client, parent *gumble.Channel, children interface{}) bool {
+	for idx, item := range children.([]interface{}) {
+		childconf := item.(map[string]interface{})
+		name, found := childconf["name"]
+		if !found {
+			log.Error("'name' not found in item #", idx)
+			return false
+		}
+		childch := addAndCheck(client, parent, name.(string))
+		if childch == nil {
+			log.Error("Could not create child ", name)
+			continue
+		}
+		description, found := childconf["description"]
+		if found {
+			client.Do(func() {
+				childch.SetDescription(description.(string))
+			})
+		}
+		grandchildren, ok := childconf["channels"]
+		if ok {
+			recurseChannelMap(client, childch, grandchildren)
+		}
+	}
+	return true
 }
