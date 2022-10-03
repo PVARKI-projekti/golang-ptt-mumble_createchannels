@@ -1,28 +1,33 @@
 ## mumble_createchannels
 
-[![Build Status](https://travis-ci.com/rambo/mumble_createchannels.svg?branch=master)](https://travis-ci.com/rambo/mumble_createchannels)
-[![GitHub](https://img.shields.io/github/license/rambo/mumble_createchannels)](https://github.com/rambo/mumble_createchannels)
- [![Docker Pulls](https://img.shields.io/docker/pulls/rambo/mumble_createchannels)](https://hub.docker.com/r/rambo/mumble_createchannels) [![Test Coverage](https://codecov.io/gh/rambo/mumble_createchannels/branch/master/graph/badge.svg)](https://codecov.io/gh/rambo/mumble_createchannels)
-[![Release](https://img.shields.io/github/release/rambo/mumble_createchannels)](https://github.com/rambo/mumble_createchannels/releases/latest)
+[![Build Status](https://travis-ci.com/rambo/mumble_createchannels.svg?branch=master)](https://travis-ci.com/PVARKI-projekti/golang-ptt-mumble_createchannels)
+[![GitHub](https://img.shields.io/github/license/rambo/mumble_createchannels)](https://github.com/PVARKI-projekti/golang-ptt-mumble_createchannels)
+ [![Docker Pulls](https://img.shields.io/docker/pulls/rambo/mumble_createchannels)](https://hub.docker.com/r/pvarkiprojekti/mumble_createchannels) [![Test Coverage](https://codecov.io/gh/PVARKI-projekti/golang-ptt-mumble_createchannels/branch/master/graph/badge.svg)](https://codecov.io/gh/PVARKI-projekti/golang-ptt-mumble_createchannels)
+[![Release](https://img.shields.io/github/release/rambo/mumble_createchannels)](https://github.com/PVARKI-projekti/golang-ptt-mumble_createchannels/releases/latest)
 
-Your description goes here...
+Create channels on mumble server using gumble client library
 
 
 ```bash
-go install github.com/rambo/mumble_createchannels
+go install github.com/PVARKI-projekti/golang-ptt-mumble_createchannels
 ```
 
 
-You can also download pre built binaries from the [releases page](https://github.com/rambo/mumble_createchannels/releases), or use the `docker` image:
+You can also use the `docker` image:
 
 ```bash
-docker pull rambo/mumble_createchannels
+docker pull pvarkiprojekti/mumble_createchannels
 ```
 
-For a list of options, run with `--help`.
+Quickstart
 
+```bash
+docker run --rm -it -v `pwd`/example.yaml:/channels.yaml:ro pvarkiprojekti/mumble_createchannels:latest --user Superuser --pass "superusers_password" myserver.example.com /channels.yaml
+```
 
+Any registered user that is allowed to create channels should work but unless you have exported the certs for said user you can't authenticate as them...
 
+For a full list of options, run with `--help`.
 
 #### Development
 

@@ -1,0 +1,19 @@
+channels:
+  - name: foobar
+    description: "bars in the foos"
+    channels:
+      - name: subfoo
+        description: "sub to the foob"
+      - name: barsub
+        description: "bar has this sub"
+  - name: zonkan
+    description: "plinks and plonks"
+    channels:
+      - name: plommor
+        description: "flowers for plinkers"
+      - name: plonkers
+        description: "where are your targets ?"
+        channels:
+          - name: john
+          - name: terry
+          - name: rick
