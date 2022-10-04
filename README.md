@@ -1,4 +1,4 @@
-## mumble_createchannels
+# mumble_createchannels
 
 Create channels on mumble server using gumble client library
 
@@ -24,9 +24,9 @@ Any registered user that is allowed to create channels should work but unless yo
 
 For a full list of options, run with `--help`.
 
-#### Development
+## Development
 
-##### pre-commit
+### pre-commit
 
 Uses pre-commit, you need some basic dependencies (run in this directory)
 
@@ -41,7 +41,7 @@ Before committing check your work with:
 
 This saves you annoyance of rewriting commit messages when one of the checks fail.
 
-######  Prerequisites
+###  Prerequisites
 
 Before you get started, make sure you have installed the following tools::
 
@@ -65,6 +65,6 @@ bump2version (major | minor | patch)
 git push --follow-tags
 ```
 
-#### Note
+## Note
 
 This project is still in the alpha stage and should not be considered production ready.
