@@ -1,19 +1,51 @@
 channels:
-  - name: foobar
-    description: "bars in the foos"
+  - name: TIKE
+    description: "Tilannepäivystys + kaikki tehtävää suorittavat -> radio check aloittaessa tehtävää ja irroittautumisviesti, kun päättää"
+  - name: 00A
+    description: "tehtäväkanava A, Käskettäessä käyttöön, käsketty A + käsketyt asiakkaat"
+  - name: 00B
+    description: "tehtäväkanava B, Käskettäessä käyttöön, käsketty B + käsketyt asiakkaat"
+  - name: 00C
+    description: "tehtäväkanava C, Käskettäessä käyttöön, käsketty C + käsketyt asiakkaat"
+  - name: 00D
+    description: "tehtäväkanava D, Käskettäessä käyttöön, käsketty D + käsketyt asiakkaat"
+  - name: Johto
+    description: "Komppanian johto-osat, Joukkueiden johto"    
+  - name: 07 TJ
+    description: "Tulenjohto"
+  - name: Alfa
+    description: "1.-joukkue (Alfa), Joukkueen johtajat ja Ryhmän johtajat"	
     channels:
-      - name: subfoo
-        description: "sub to the foob"
-      - name: barsub
-        description: "bar has this sub"
-  - name: zonkan
-    description: "plinks and plonks"
+      - name: A1
+        description: "Alfa-Ryhmä1, Ryhmän taistelijat"
+      - name: A2
+        description: "Alfa-Ryhmä2, Ryhmän taistelijat"
+      - name: 103
+        description: "Alfa-Ryhmä3, Ryhmän taistelijat"
+  - name: Bravo
+    description: "2.-joukkue (Bravo), Joukkueen johtajat ja Ryhmän johtajat"	
     channels:
-      - name: plommor
-        description: "flowers for plinkers"
-      - name: plonkers
-        description: "where are your targets ?"
-        channels:
-          - name: john
-          - name: terry
-          - name: rick
+      - name: B1
+        description: "Bravo-Ryhmä1, Ryhmän taistelijat"
+      - name: B2
+        description: "Bravo-Ryhmä2, Ryhmän taistelijat"
+      - name: B3
+        description: "Bravo-Ryhmä3, Ryhmän taistelijat"
+  - name: Charlie
+    description: "3.-joukkue (Charlie), Joukkueen johtajat ja Ryhmän johtajat"	
+    channels:
+      - name: C1
+        description: "Charlie-Ryhmä1, Ryhmän taistelijat"
+      - name: C2
+        description: "Charlie-Ryhmä2, Ryhmän taistelijat"
+      - name: C3
+        description: "Charlie-Ryhmä3, Ryhmän taistelijat"
+  - name: Delta
+    description: "4.-joukkue (Delta), Joukkueen johtajat ja Ryhmän johtajat"	
+    channels:
+      - name: D1
+        description: "Delta-Ryhmä1, Ryhmän taistelijat"
+      - name: D2
+        description: "Delta-Ryhmä2, Ryhmän taistelijat"
+      - name: D3
+        description: "Delta-Ryhmä3, Ryhmän taistelijat"
