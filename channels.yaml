@@ -11,8 +11,10 @@ channels:
     description: "tehtäväkanava D, Käskettäessä käyttöön, käsketty D + käsketyt asiakkaat"
   - name: Johto
     description: "Komppanian johto-osat, Joukkueiden johto"    
-  - name: 07 TJ
+  - name: TJ
     description: "Tulenjohto"
+  - name: Golf
+    description: "TiedR (Golf), Ryhmän taistelijat"
   - name: Alfa
     description: "1.-joukkue (Alfa), Joukkueen johtajat ja Ryhmän johtajat"	
     channels:
@@ -20,7 +22,7 @@ channels:
         description: "Alfa-Ryhmä1, Ryhmän taistelijat"
       - name: A2
         description: "Alfa-Ryhmä2, Ryhmän taistelijat"
-      - name: 103
+      - name: A3
         description: "Alfa-Ryhmä3, Ryhmän taistelijat"
   - name: Bravo
     description: "2.-joukkue (Bravo), Joukkueen johtajat ja Ryhmän johtajat"	
@@ -49,3 +51,25 @@ channels:
         description: "Delta-Ryhmä2, Ryhmän taistelijat"
       - name: D3
         description: "Delta-Ryhmä3, Ryhmän taistelijat"
+  - name: Hotel
+    description: "Huolto-joukkue (Hotel), Joukkueen johtajat ja Ryhmän johtajat"	
+    channels:
+      - name: H1
+        description: "Hotel-Ryhmä1, Ryhmän taistelijat"
+      - name: H2
+        description: "Hotel-Ryhmä2, Ryhmän taistelijat"
+      - name: H3
+        description: "Hotel-Ryhmä3, Ryhmän taistelijat"
+      - name: H4
+        description: "Hotel-Ryhmä3, Ryhmän taistelijat"
+  - name: Lima
+    description: "Komento-joukkue (Lima), Joukkueen johtajat ja Ryhmän johtajat"	
+    channels:
+      - name: L1
+        description: "Hotel-Ryhmä1, Ryhmän taistelijat"
+      - name: L2
+        description: "Hotel-Ryhmä2, Ryhmän taistelijat"
+      - name: L3
+        description: "Hotel-Ryhmä3, Ryhmän taistelijat"
+      - name: L4
+        description: "Hotel-Ryhmä3, Ryhmän taistelijat"        
