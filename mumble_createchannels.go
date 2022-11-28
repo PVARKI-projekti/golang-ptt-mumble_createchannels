@@ -19,7 +19,7 @@ import (
 var Rev = ""
 
 // Version is incremented using bump2version
-const Version = "0.0.2"
+const Version = "0.1.0"
 
 func main() {
 	app := &cli.App{
@@ -57,6 +57,11 @@ func main() {
 				Name:  "insecure",
 				Usage: "Do not verify server certificate",
 				Value: false,
+			},
+			&cli.IntFlag{
+				Name:  "wait",
+				Usage: "wait for server ping for this many seconds",
+				Value: 5,
 			},
 		},
 		Action: func(ctx *cli.Context) error {
@@ -117,8 +122,16 @@ func main() {
 			if serverpass != "" {
 				config.Password = serverpass //pragma: allowlist secret
 			}
+			interval := time.Second * 1
+			timeout := time.Second * time.Duration(ctx.Int("wait"))
 
 			address := net.JoinHostPort(ctx.Args().First(), strconv.Itoa(ctx.Int("port")))
+			log.Info("Pinging ", address)
+			_, err = gumble.Ping(address, interval, timeout)
+			if err != nil {
+				log.Fatal(err)
+				return cli.Exit("Could not ping", 1)
+			}
 
 			log.Info("Dialing ", address)
 			client, err := gumble.DialWithDialer(new(net.Dialer), address, config, &tlsConfig)
