@@ -58,6 +58,11 @@ func main() {
 				Usage: "Do not verify server certificate",
 				Value: false,
 			},
+			&cli.IntFlag{
+				Name:  "wait",
+				Usage: "wait for server ping for this many seconds",
+				Value: 5,
+			},
 		},
 		Action: func(ctx *cli.Context) error {
 			if level, err := log.ParseLevel(ctx.String("log")); err == nil {
@@ -117,8 +122,16 @@ func main() {
 			if serverpass != "" {
 				config.Password = serverpass //pragma: allowlist secret
 			}
+			interval := time.Second * 1
+			timeout := time.Second * time.Duration(ctx.Int("wait"))
 
 			address := net.JoinHostPort(ctx.Args().First(), strconv.Itoa(ctx.Int("port")))
+			log.Info("Pinging ", address)
+			_, err = gumble.Ping(address, interval, timeout)
+			if err != nil {
+				log.Fatal(err)
+				return cli.Exit("Could not ping", 1)
+			}
 
 			log.Info("Dialing ", address)
 			client, err := gumble.DialWithDialer(new(net.Dialer), address, config, &tlsConfig)

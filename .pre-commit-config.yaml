@@ -7,7 +7,7 @@ repos:
     - id: go-lint
     - id: go-imports
     - id: go-cyclo
-      args: [-over=15]
+      args: [-over=16]
     - id: go-build
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.1.0
