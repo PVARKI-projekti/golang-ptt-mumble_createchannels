@@ -19,7 +19,7 @@ import (
 var Rev = ""
 
 // Version is incremented using bump2version
-const Version = "0.1.0"
+const Version = "0.1.1"
 
 func main() {
 	app := &cli.App{
