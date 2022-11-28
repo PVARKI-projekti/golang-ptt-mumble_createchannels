@@ -19,7 +19,7 @@ import (
 var Rev = ""
 
 // Version is incremented using bump2version
-const Version = "0.1.0"
+const Version = "0.1.1"
 
 func main() {
 	app := &cli.App{
@@ -194,7 +194,14 @@ func recurseChannelMap(client *gumble.Client, parent *gumble.Channel, children i
 			log.Error("'name' not found in item #", idx)
 			continue
 		}
-		childch := addAndCheck(client, parent, name.(string))
+		childname := ""
+		switch name.(type) {
+		case string:
+			childname = name.(string)
+		case int:
+			childname = strconv.Itoa(name.(int))
+		}
+		childch := addAndCheck(client, parent, childname)
 		if childch == nil {
 			log.Error("Could not create child ", name)
 			continue
